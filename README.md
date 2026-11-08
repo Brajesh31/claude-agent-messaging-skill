@@ -1,43 +1,82 @@
-# Agent Messaging Skill
+# claude-agent-messaging-skill
 
-A Claude skill for sending and receiving messages between AI agents using the Agent Messaging Protocol (AMP). It covers local agent communication, identity setup, message delivery, replies, message metadata, and core security concepts.
+A Claude Code skill for sending, receiving, and managing messages between AI agents using the Agent Messaging Protocol (AMP).
 
-## What This Skill Covers
+## Overview
 
-- Initialising an agent identity for AMP communication.
-- Sending messages with a recipient, subject, and body.
-- Checking an inbox, reading messages, and replying.
-- Working with local, qualified, and externally registered addresses.
-- Setting message priority and type.
-- Attaching files to messages.
-- Understanding message signing and local private-key handling.
+This skill supports structured inter-agent communication. It covers agent identity initialization, message addressing, inbox operations, replies, priorities, attachments, and message-signing concepts.
 
-## Repository Structure
+The documented workflow supports local communication by default. External delivery requires the relevant provider and environment configuration.
 
-- `SKILL.md`: Full skill instructions, installation steps, quick-start examples, command reference, and security notes.
-- `LICENSE`: MIT License for this repository.
+## Main Capabilities
+
+- Initialize a local agent identity.
+- Send messages to another agent.
+- Check and read incoming messages.
+- Reply to existing messages.
+- Use local and qualified agent addresses.
+- Set message type and priority.
+- Attach files where supported.
+- Understand message signatures and identity verification.
+- Manage private-key handling and communication boundaries.
 
 ## Prerequisites
 
-The skill expects the AMP command-line scripts to be installed and available on the system PATH. Basic local messaging is described as working without external providers. External delivery may require provider registration and configuration.
+The AMP command-line scripts must be installed and available on the system PATH. Basic local messaging can operate without an external delivery provider. External messaging may require additional configuration.
 
-## Typical Workflow
+## Installation
 
-1. Install the messaging CLI scripts.
-2. Initialise the local agent identity.
-3. Send a message to another agent using its address.
-4. Check the inbox and read incoming messages.
-5. Reply or send follow-up messages with the appropriate priority and type.
-6. Use attachment and external-address features only when the environment is configured for them.
+Clone the repository into your skills directory:
 
-## Security Notes
+```bash
+git clone https://github.com/Brajesh31/claude-agent-messaging-skill.git ~/.claude/skills/agent-messaging
+```
 
-The skill describes Ed25519 message signatures and local private-key storage. Keep private keys on the agent's machine and review the environment's security requirements before enabling external messaging or file attachments.
+Install and configure the AMP CLI separately, following the setup steps in `SKILL.md`.
 
 ## Usage
 
-Add this skill to a Claude-compatible skills environment and invoke it for inter-agent communication tasks. Commands require the AMP CLI and a correctly configured agent environment.
+Invoke the skill for agent communication tasks:
 
-## License
+```text
+/agent-messaging
+```
 
-Released under the MIT License. See [LICENSE](LICENSE) for details.
+Provide the sender identity, recipient address, subject, message body, priority, and any attachment requirements.
+
+## Typical Workflow
+
+1. Install the messaging command-line tools.
+2. Initialize the local agent identity.
+3. Confirm the recipient address.
+4. Compose a message with a clear subject and body.
+5. Send the message.
+6. Check the inbox for replies.
+7. Read and respond to relevant messages.
+8. Verify delivery status where supported.
+
+## Message Design
+
+- Use stable agent identifiers.
+- Keep subjects concise and specific.
+- Include enough context for the recipient to act.
+- State the expected response or next action.
+- Use priority only when it reflects actual urgency.
+- Avoid sending secrets or unnecessary personal data in message bodies.
+
+## Security Considerations
+
+The workflow describes signed messages and local private-key handling. Keep private keys on the machine that owns the identity. Restrict filesystem permissions, protect backups, and review the trust model before enabling external delivery or attachments.
+
+## Repository Contents
+
+- `SKILL.md`: Main AMP communication instructions.
+- `README.md`: Setup assumptions, workflow, and security guidance.
+
+## Troubleshooting
+
+If a message cannot be sent, verify that the CLI is installed, the sender identity exists, the recipient address is valid, and the local environment has the required permissions. For external delivery, inspect provider configuration and service availability.
+
+## Important Note
+
+Message signatures help establish integrity and sender identity within the configured trust model. They do not guarantee that a message's contents are safe or trustworthy.
